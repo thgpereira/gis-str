@@ -1,6 +1,6 @@
 from flask import Flask
-from flaskt import swagger
-from flaskt import vegetation_cover
+from gist.api import swagger
+from gist.api import vegetation_cover
 
 app = Flask(__name__)
 
