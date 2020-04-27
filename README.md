@@ -16,3 +16,10 @@ O projeto efetua os seguintes cálculos:
 - Centróide geográfico da cena
 - Área em quilômetros quadrados da cena
 - Horário local da captura
+
+# Aplicação
+### Docker
+docker build -t strider:latest ./
+docker run -d -p 5000:5000 strider
+
+Acessar http://localhost:5000/ ou http://127.0.0.1:5000/
