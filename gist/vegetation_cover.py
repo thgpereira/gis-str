@@ -1,4 +1,5 @@
 import os
+import numpy
 import rasterio
 from flask import Blueprint
 
@@ -23,10 +24,17 @@ def get_file_name():
     return os.path.basename(src.name)
 
 def get_cover():
-    return 'WIP'
+    red = src.read(3).astype(float)
+    nir = src.read(4).astype(float)
+    numpy.seterr(divide='ignore', invalid='ignore')
+    check = numpy.logical_or(red > 0, nir > 0)
+    ndvi = numpy.where(check, (nir - red) / (nir + red), -999)
+    return ndvi.mean()
 
 def get_area():
-    return 'WIP'
+    width = src.bounds[2] - src.bounds[0]
+    height = src.bounds[3] - src.bounds[1]
+    return width * height
 
 def get_centroid():
     return 'WIP'
