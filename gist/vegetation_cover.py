@@ -28,7 +28,7 @@ def get_cover():
     nir = src.read(4).astype(float)
     numpy.seterr(divide='ignore', invalid='ignore')
     check = numpy.logical_or(red > 0, nir > 0)
-    ndvi = numpy.where(check, (nir - red) / (nir + red), -999)
+    ndvi = numpy.where(check, (nir - red) / (nir + red), 0.0)
     return ndvi.mean()
 
 def get_area():
