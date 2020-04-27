@@ -1,10 +1,11 @@
 from flask import Flask
-from gist.api import swagger
-from gist.api import vegetation_cover
+from gist import swagger
+from gist import vegetation_cover
 
 app = Flask(__name__)
 
 app.register_blueprint(swagger.get_swagger())
 app.register_blueprint(vegetation_cover.get_blueprint())
 
-app.run()
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', debug=True)

@@ -1,6 +1,10 @@
+import os
+import rasterio
 from flask import Blueprint
 
 bp = Blueprint('vegetation_cover', __name__, url_prefix='/vegetation-cover')
+image_path = os.path.join(os.path.dirname(__file__), 'resource/analytic.tif')
+src = rasterio.open(image_path)
 
 def get_blueprint():
     return bp
@@ -16,7 +20,7 @@ def get_data():
     }
 
 def get_file_name():
-    return 'WIP'
+    return os.path.basename(src.name)
 
 def get_cover():
     return 'WIP'
