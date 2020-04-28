@@ -1,6 +1,8 @@
 import os
 import numpy
 import rasterio
+import rasterio.features
+import rasterio.warp
 from flask import Blueprint
 
 bp = Blueprint('vegetation_cover', __name__, url_prefix='/vegetation-cover')
@@ -32,12 +34,16 @@ def get_cover():
     return ndvi.mean()
 
 def get_area():
-    width = src.bounds[2] - src.bounds[0]
-    height = src.bounds[3] - src.bounds[1]
+    width = src.bounds.right - src.bounds.left
+    height = src.bounds.top - src.bounds.bottom
     return width * height
 
 def get_centroid():
-    return 'WIP'
+    mask = src.dataset_mask()
+    for geom, val in rasterio.features.shapes(mask, transform=src.transform):
+        geom = rasterio.warp.transform_geom(
+            src.crs, 'EPSG:4326', geom, precision=6)
+        return geom
 
 def get_local_time():
     return 'WIP'
