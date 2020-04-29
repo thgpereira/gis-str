@@ -1,26 +1,11 @@
 import os
-import numpy
-import rasterio
-import rasterio.features
-import rasterio.warp
-from flask import Blueprint
+import numpy as np
+import rasterio as ras
+import rasterio.features as features
+import rasterio.warp as warp
 
-bp = Blueprint('vegetation_cover', __name__, url_prefix='/vegetation-cover')
 image_path = os.path.join(os.path.dirname(__file__), 'resource/analytic.tif')
-src = rasterio.open(image_path)
-
-def get_blueprint():
-    return bp
-
-@bp.route('', methods=['GET'])
-def get_data():
-    return {
-        'filename': get_file_name(),
-        'cover': get_cover(),
-        'area': get_area(),
-        'centroid': get_centroid(),
-        'local_time': get_local_time()
-    }
+src = ras.open(image_path)
 
 def get_file_name():
     return os.path.basename(src.name)
@@ -28,9 +13,9 @@ def get_file_name():
 def get_cover():
     red = src.read(3).astype(float)
     nir = src.read(4).astype(float)
-    numpy.seterr(divide='ignore', invalid='ignore')
-    check = numpy.logical_or(red > 0, nir > 0)
-    ndvi = numpy.where(check, (nir - red) / (nir + red), 0.0)
+    np.seterr(divide='ignore', invalid='ignore')
+    check = np.logical_or(red > 0, nir > 0)
+    ndvi = np.where(check, (nir - red) / (nir + red), 0.0)
     return ndvi.mean()
 
 def get_area():
@@ -40,10 +25,10 @@ def get_area():
 
 def get_centroid():
     mask = src.dataset_mask()
-    for geom, val in rasterio.features.shapes(mask, transform=src.transform):
-        geom = rasterio.warp.transform_geom(
+    for geom, val in features.shapes(mask, transform=src.transform):
+        geom = warp.transform_geom(
             src.crs, 'EPSG:4326', geom, precision=6)
         return geom
 
 def get_local_time():
-    return 'WIP'
+    return "WIP"
