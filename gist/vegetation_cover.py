@@ -3,12 +3,13 @@ import numpy as np
 import rasterio as ras
 import rasterio.features as features
 import rasterio.warp as warp
-from gist import date_utils
+from gist.date_utils import DateUtis
 
 class VegetationCover:
     def __init__(self):
         image_path = os.path.join(os.path.dirname(__file__), 'resource/analytic.tif')
         self.src = ras.open(image_path)
+        self.date_utils = DateUtis()
 
     def get_file_name(self):
         return os.path.basename(self.src.name)
