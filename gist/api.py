@@ -13,5 +13,5 @@ def get_data():
         'cover': vc.get_cover(),
         'area': vc.get_area(),
         'centroid': vc.get_centroid(),
-        'local_time': vc.get_local_time()
+        'local_time': vc.get_image_time()
     }

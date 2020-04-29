@@ -3,6 +3,7 @@ import numpy as np
 import rasterio as ras
 import rasterio.features as features
 import rasterio.warp as warp
+from gist import date_utils
 
 image_path = os.path.join(os.path.dirname(__file__), 'resource/analytic.tif')
 src = ras.open(image_path)
@@ -30,5 +31,8 @@ def get_centroid():
             src.crs, 'EPSG:4326', geom, precision=6)
         return geom
 
-def get_local_time():
-    return "WIP"
+def get_image_time():
+    image_time = src.tags(ns='TIFFTAG_DATETIME')
+    if bool(image_time):
+        return date_utils.convert_datetime_to_timestamp(image_time, '%Y:%m:%d %H:%M:%S')
+    return ''
