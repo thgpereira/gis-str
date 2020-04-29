@@ -1,6 +1,7 @@
 from flask import Blueprint
-from gist import vegetation_cover as vc
+from .vegetation_cover import VegetationCover
 
+vc = VegetationCover()
 bp = Blueprint('vegetation_cover', __name__, url_prefix='/vegetation-cover')
 
 def get_blueprint():
