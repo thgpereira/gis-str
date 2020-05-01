@@ -37,5 +37,5 @@ class VegetationCover:
     def get_image_time(self):
         image_time = self.src.tags(ns='TIFFTAG_DATETIME')
         if bool(image_time):
-            return date_utils.convert_datetime_to_timestamp(image_time, '%Y:%m:%d %H:%M:%S')
+            return self.date_utils.convert_datetime_to_iso(image_time, '%Y:%m:%d %H:%M:%S%z')
         return ''
