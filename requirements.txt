@@ -1,4 +1,4 @@
-flask==1.1.2
+flask==2.3.2
 flask-swagger-ui==3.25.0
 pytz==2020.1
 rasterio==1.1.3
